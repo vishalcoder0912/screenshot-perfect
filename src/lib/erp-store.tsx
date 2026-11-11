@@ -42,7 +42,8 @@ interface State { role: Role; candidates: Candidate[]; companies: Company[]; tas
 
 const today = () => new Date().toISOString().slice(0, 10);
 const now = () => new Date().toLocaleString("en-IN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short" });
-const uid = () => Math.random().toString(36).slice(2, 9);
+let seq = 0;
+const uid = () => `r${++seq}`;
 
 const names = ["Aarav Mehta", "Diya Sharma", "Ishaan Gupta", "Sneha Patil", "Arjun Reddy", "Kavya Menon", "Rahul Singh", "Pooja Joshi", "Vikram Das", "Neha Kulkarni", "Siddharth Jain", "Tanvi Bhat"];
 const programs = ["Full-Stack Development", "Data Analytics", "Digital Marketing", "UI/UX Design"];
