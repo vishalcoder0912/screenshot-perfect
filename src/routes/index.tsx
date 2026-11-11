@@ -25,8 +25,8 @@ function Dashboard() {
     placement: [["Candidates", c.length, "primary"], ["Unassigned", c.filter((x) => x.owner === "placement").length, "accent"], ["Open positions", s.companies.reduce((a, x) => a + x.openings.reduce((b, o) => b + o.positions, 0), 0), "primary"], ["Selected", c.filter((x) => x.result === "Selected").length, "success"]],
     backend: [["My queue", c.filter((x) => x.owner === "backend").length, "primary"], ["Calls today", calls.length, "accent"], ["Connected", calls.filter((x) => x.status !== "DNP" && x.status !== "Not Called").length, "success"], ["DNP", calls.filter((x) => x.status === "DNP").length, "destructive"]],
     hr: [["In pipeline", c.filter((x) => x.owner === "hr" && !x.result).length, "primary"], ["Awaiting review", c.filter((x) => x.stage === "Received").length, "accent"], ["Selected", c.filter((x) => x.result === "Selected").length, "success"], ["Rejected", c.filter((x) => x.result === "Rejected").length, "destructive"]],
-    designer: TASK_COLS.map((col, i) => [col, myTasks.filter((t) => t.col === col).length, (["primary", "accent", "destructive", "success"] as const)[i]]),
-    developer: TASK_COLS.map((col, i) => [col, myTasks.filter((t) => t.col === col).length, (["primary", "accent", "destructive", "success"] as const)[i]]),
+    designer: TASK_COLS.map((col, i): [string, number, "primary" | "accent" | "success" | "destructive"] => [col, myTasks.filter((t) => t.col === col).length, (["primary", "accent", "destructive", "success"] as const)[i]!]),
+    developer: TASK_COLS.map((col, i): [string, number, "primary" | "accent" | "success" | "destructive"] => [col, myTasks.filter((t) => t.col === col).length, (["primary", "accent", "destructive", "success"] as const)[i]!]),
   }[s.role];
 
   return (

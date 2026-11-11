@@ -21,8 +21,8 @@ export interface Candidate {
   id: string; name: string; phone: string; email: string; priorCourse: string; program: string;
   status: "Graduated" | "Enrolled"; skills: string[]; experience: number; score: number;
   owner: "placement" | "backend" | "hr"; callStatus: CallStatus; whatsapp: "Not Sent" | "Sent" | "Delivered" | "Replied";
-  cvReceived: boolean; calls: CallLog[]; stage?: Stage; stageNotes: StageNote[]; companyId?: string;
-  result?: "Selected" | "Rejected" | "On Hold"; slot?: string;
+  cvReceived: boolean; calls: CallLog[]; stage?: Stage | undefined; stageNotes: StageNote[]; companyId?: string | undefined;
+  result?: "Selected" | "Rejected" | "On Hold" | undefined; slot?: string | undefined;
 }
 export interface Company {
   id: string; name: string; industry: string; city: string; website: string;
@@ -50,11 +50,11 @@ const programs = ["Full-Stack Development", "Data Analytics", "Digital Marketing
 const skillPool = ["React", "Node.js", "SQL", "Python", "Excel", "Power BI", "Figma", "SEO", "MongoDB", "Java"];
 const seedCandidates: Candidate[] = names.map((n, i) => ({
   id: uid(), name: n, phone: `98${(45000000 + i * 1371).toString()}`, email: n.toLowerCase().replace(" ", ".") + "@mail.com",
-  priorCourse: ["B.Tech", "BCA", "B.Com", "BSc", "MBA"][i % 5], program: programs[i % 4],
-  status: i % 3 === 0 ? "Enrolled" : "Graduated", skills: [skillPool[i % 10], skillPool[(i + 3) % 10], skillPool[(i + 6) % 10]],
+  priorCourse: ["B.Tech", "BCA", "B.Com", "BSc", "MBA"][i % 5]!, program: programs[i % 4]!,
+  status: i % 3 === 0 ? "Enrolled" : "Graduated", skills: [skillPool[i % 10]!, skillPool[(i + 3) % 10]!, skillPool[(i + 6) % 10]!],
   experience: i % 4, score: 55 + ((i * 7) % 43),
   owner: i < 5 ? "placement" : i < 9 ? "backend" : "hr",
-  callStatus: i < 5 ? "Not Called" : (["Connected", "DNP", "Interested", "Follow-up"] as CallStatus[])[i % 4],
+  callStatus: i < 5 ? "Not Called" : (["Connected", "DNP", "Interested", "Follow-up"] as CallStatus[])[i % 4]!,
   whatsapp: i < 6 ? "Not Sent" : "Delivered", cvReceived: i > 7,
   calls: i >= 5 ? [{ date: today(), status: "Connected", remark: "Discussed openings", by: "Rohit Verma" }] : [],
   stage: i >= 9 ? STAGES[(i - 8) * 2] : undefined, stageNotes: [], slot: i >= 9 ? "Mon 11:00" : undefined,
@@ -103,7 +103,7 @@ function reducer(s: State, a: Action): State {
       const cur = c.stage ?? "Received"; const idx = STAGES.indexOf(cur);
       const notes = [...c.stageNotes, { stage: cur, date: today(), feedback: a.feedback, rating: a.rating, by: who }];
       if (cur === "Final") return { ...c, stageNotes: notes, result: a.result ?? "Selected" };
-      return { ...c, stageNotes: notes, stage: STAGES[idx + 1] };
+      return { ...c, stageNotes: notes, stage: STAGES[idx + 1]! };
     }), activity: log(`updated interview stage for ${nameOf(a.id)}`) };
     case "addCompany": return { ...s, companies: [{ ...a.c, id: uid() }, ...s.companies], activity: log(`added company ${a.c.name}`) };
     case "addHr": return { ...s, companies: s.companies.map((c) => (c.id === a.id ? { ...c, hrs: [...c.hrs, a.hr] } : c)), activity: log(`added HR contact ${a.hr.name}`) };

@@ -36,10 +36,10 @@ function Reports() {
       <div className="grid gap-6 lg:grid-cols-2">
         {s.role !== "admin" && (
           <form className="grid gap-3 rounded-xl border bg-card p-5" onSubmit={(e) => { e.preventDefault();
-            const metrics: Record<string, number> = { ...auto }; for (const k of FIELDS[s.role]) metrics[k] = Number(m[k]) || 0;
+            const metrics: Record<string, number> = { ...auto }; for (const k of (FIELDS[s.role] ?? [])) metrics[k] = Number(m[k]) || 0;
             d({ type: "addEod", e: { summary, plan, metrics } }); setM({}); setSummary(""); setPlan(""); toast.success("EOD submitted"); }}>
             {Object.keys(auto).length > 0 && <div className="grid grid-cols-3 gap-2">{Object.entries(auto).map(([k, v]) => <div key={k} className="rounded-lg bg-muted p-2 text-center"><div className="text-xs text-muted-foreground">{k}</div><div className="font-display text-lg font-bold">{v}</div></div>)}</div>}
-            <div className="grid grid-cols-2 gap-3">{FIELDS[s.role].map((k) => <div key={k} className="grid gap-1"><Label className="text-xs">{k}</Label><Input type="number" min={0} value={m[k] ?? ""} onChange={(e) => setM({ ...m, [k]: e.target.value })} /></div>)}</div>
+            <div className="grid grid-cols-2 gap-3">{(FIELDS[s.role] ?? []).map((k) => <div key={k} className="grid gap-1"><Label className="text-xs">{k}</Label><Input type="number" min={0} value={m[k] ?? ""} onChange={(e) => setM({ ...m, [k]: e.target.value })} /></div>)}</div>
             <div className="grid gap-1"><Label>Summary</Label><Textarea value={summary} onChange={(e) => setSummary(e.target.value)} required /></div>
             <div className="grid gap-1"><Label>Next-day plan</Label><Textarea value={plan} onChange={(e) => setPlan(e.target.value)} /></div>
             <Button type="submit">Submit EOD</Button>
