@@ -13,6 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CallingRouteImport } from './routes/calling'
 import { Route as CandidatesRouteImport } from './routes/candidates'
 import { Route as CompaniesRouteImport } from './routes/companies'
+import { Route as InterviewsRouteImport } from './routes/interviews'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as TasksRouteImport } from './routes/tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +37,39 @@ const CompaniesRoute = CompaniesRouteImport.update({
   path: '/companies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InterviewsRoute = InterviewsRouteImport.update({
+  id: '/interviews',
+  path: '/interviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
   '/companies': typeof CompaniesRoute
+  '/interviews': typeof InterviewsRoute
+  '/reports': typeof ReportsRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
   '/companies': typeof CompaniesRoute
+  '/interviews': typeof InterviewsRoute
+  '/reports': typeof ReportsRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +77,38 @@ export interface FileRoutesById {
   '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
   '/companies': typeof CompaniesRoute
+  '/interviews': typeof InterviewsRoute
+  '/reports': typeof ReportsRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calling' | '/candidates' | '/companies'
+  fullPaths:
+    | '/'
+    | '/calling'
+    | '/candidates'
+    | '/companies'
+    | '/interviews'
+    | '/reports'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calling' | '/candidates' | '/companies'
-  id: '__root__' | '/' | '/calling' | '/candidates' | '/companies'
+  to:
+    | '/'
+    | '/calling'
+    | '/candidates'
+    | '/companies'
+    | '/interviews'
+    | '/reports'
+    | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/calling'
+    | '/candidates'
+    | '/companies'
+    | '/interviews'
+    | '/reports'
+    | '/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +116,9 @@ export interface RootRouteChildren {
   CallingRoute: typeof CallingRoute
   CandidatesRoute: typeof CandidatesRoute
   CompaniesRoute: typeof CompaniesRoute
+  InterviewsRoute: typeof InterviewsRoute
+  ReportsRoute: typeof ReportsRoute
+  TasksRoute: typeof TasksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +151,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompaniesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/interviews': {
+      id: '/interviews'
+      path: '/interviews'
+      fullPath: '/interviews'
+      preLoaderRoute: typeof InterviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   CallingRoute: CallingRoute,
   CandidatesRoute: CandidatesRoute,
   CompaniesRoute: CompaniesRoute,
+  InterviewsRoute: InterviewsRoute,
+  ReportsRoute: ReportsRoute,
+  TasksRoute: TasksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
