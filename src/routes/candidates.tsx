@@ -49,7 +49,7 @@ function Candidates() {
               <td className="p-3">{c.score}</td>
               {reqSkills.length > 0 && <td className="p-3 font-semibold text-primary">{matchScore(c, reqSkills)}%</td>}
               <td className="p-3 capitalize">{c.result ?? (c.owner === "hr" ? `HR · ${c.stage}` : c.owner)}</td>
-              <td className="p-3">{c.owner === "placement" && <Button size="sm" onClick={() => { d({ type: "assignBackend", id: c.id, companyId: companyId !== "none" ? companyId : undefined }); toast.success(`${c.name} sent to Backend Calling`); }}>Assign to calling</Button>}</td>
+              <td className="p-3">{c.owner === "placement" && <Button size="sm" onClick={() => { d({ type: "assignBackend", id: c.id, ...(companyId !== "none" ? { companyId } : {}) }); toast.success(`${c.name} sent to Backend Calling`); }}>Assign to calling</Button>}</td>
             </tr>))}</tbody>
         </table>
       </div>

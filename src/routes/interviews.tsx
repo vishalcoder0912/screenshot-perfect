@@ -53,7 +53,7 @@ function StageDialog({ id, onClose }: { id: string; onClose: () => void }) {
   const c = s.candidates.find((x) => x.id === id)!;
   const [fb, setFb] = useState(""); const [rating, setRating] = useState([3]);
   const isFinal = c.stage === "Final";
-  const submit = (result?: Candidate["result"]) => { d({ type: "advance", id, feedback: fb, rating: rating[0], result }); toast.success(isFinal ? `Decision: ${result}` : "Moved to next stage"); onClose(); };
+  const submit = (result?: Candidate["result"]) => { d({ type: "advance", id, feedback: fb, rating: rating[0] ?? 3, result }); toast.success(isFinal ? `Decision: ${result}` : "Moved to next stage"); onClose(); };
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-lg"><DialogHeader><DialogTitle>{c.name} — {c.stage}</DialogTitle></DialogHeader>
