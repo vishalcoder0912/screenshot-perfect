@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CallingRouteImport } from './routes/calling'
 import { Route as CandidatesRouteImport } from './routes/candidates'
+import { Route as CompaniesRouteImport } from './routes/companies'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallingRoute = CallingRouteImport.update({
+  id: '/calling',
+  path: '/calling',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CandidatesRoute = CandidatesRouteImport.update({
@@ -22,31 +29,44 @@ const CandidatesRoute = CandidatesRouteImport.update({
   path: '/candidates',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompaniesRoute = CompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
+  '/companies': typeof CompaniesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
+  '/companies': typeof CompaniesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/calling': typeof CallingRoute
   '/candidates': typeof CandidatesRoute
+  '/companies': typeof CompaniesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/candidates'
+  fullPaths: '/' | '/calling' | '/candidates' | '/companies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/candidates'
-  id: '__root__' | '/' | '/candidates'
+  to: '/' | '/calling' | '/candidates' | '/companies'
+  id: '__root__' | '/' | '/calling' | '/candidates' | '/companies'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CallingRoute: typeof CallingRoute
   CandidatesRoute: typeof CandidatesRoute
+  CompaniesRoute: typeof CompaniesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/calling': {
+      id: '/calling'
+      path: '/calling'
+      fullPath: '/calling'
+      preLoaderRoute: typeof CallingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/candidates': {
       id: '/candidates'
       path: '/candidates'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CandidatesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/companies': {
+      id: '/companies'
+      path: '/companies'
+      fullPath: '/companies'
+      preLoaderRoute: typeof CompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CallingRoute: CallingRoute,
   CandidatesRoute: CandidatesRoute,
+  CompaniesRoute: CompaniesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
